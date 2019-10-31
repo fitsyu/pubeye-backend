@@ -48,7 +48,7 @@
                     <td>#(report.what)</td>
                     <td>#(report.who)</td>
                     <td>#(report.when)</td>
-                    <td>#(report.where)</td>
+                    <td>#(report.whre.latitude),#(report.whre.longitude)</td>
                     <td> <a>somewhere</a> <td>
                 </tr>
             }

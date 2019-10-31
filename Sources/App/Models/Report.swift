@@ -15,7 +15,7 @@ final class Report: SQLiteModel {
     var what: String
     var who: String
     var when: String
-    var `where`: GeoLocation
+    var whre: GeoLocation
     
     var how: Proof
 //    var video: URL
@@ -24,7 +24,7 @@ final class Report: SQLiteModel {
          what: String,
          who: String,
          when: String,
-         `where`: GeoLocation,
+         whre: GeoLocation,
          
          how: Proof
         ) {
@@ -34,7 +34,7 @@ final class Report: SQLiteModel {
         self.what = what
         self.who  = who
         self.when = when
-        self.where = `where`
+        self.whre = whre
         
         self.how = how
     }
