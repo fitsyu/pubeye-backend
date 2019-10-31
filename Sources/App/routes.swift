@@ -8,10 +8,6 @@ public func routes(_ router: Router) throws {
     }
     
     // Basic "Hello, world!" example
-//    router.get("hello") { req in
-//        return "Hello, world!"
-//    }
-    
     router.get("hello") { req -> Future<View> in
         return try req.view().render("hello", ["name": "Leaf Ninja"])
     }
@@ -26,4 +22,10 @@ public func routes(_ router: Router) throws {
     let reportController = ReportController()
     router.post("reports", use: reportController.create)
     router.get("reports", use: reportController.index)
+    
+    router.get("list") { req -> Future<View> in
+        
+        let reports = Report.query(on: req).all()
+        return try req.view().render("reportlist", ["data":reports])
+    }
 }

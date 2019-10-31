@@ -1,0 +1,60 @@
+#//
+#//  ReportList.swift
+#//  App
+#//
+#//  Created by Fitsyu  on 31/10/19.
+#//
+
+<html>
+    <head>
+        <title>Public Eyes - Report List </title>
+
+        <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        </style>
+
+    </head>
+    <body>
+
+        <center>
+
+            <h1>Public Eyes </h1>
+
+            <h2> #count(data) reported and counting! </h2>
+
+
+        </center>
+
+
+        <form action="/search">
+            <input type="text" name="txSearch" value="">
+            <input type="submit" value="SEARCH">
+        </form>
+
+        <table>
+
+            <tr>
+                <th>What</th>
+                <th>Who</th>
+                <th>When</th>
+                <th>Where</th>
+                <th>How</th>
+            </tr>
+
+            #for(report in data) {
+                <tr>
+                    <td>#(report.what)</td>
+                    <td>#(report.who)</td>
+                    <td>#(report.when)</td>
+                    <td>#(report.where)</td>
+                    <td> <a>somewhere</a> <td>
+                </tr>
+            }
+
+        </table>
+
+
+    </body>
+</html>
