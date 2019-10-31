@@ -16,14 +16,17 @@ final class Report: SQLiteModel {
     var who: String
     var when: String
     var `where`: GeoLocation
-//    var photo: URL
+    
+    var how: Proof
 //    var video: URL
     
     init(id: Int? = nil,
          what: String,
          who: String,
          when: String,
-         `where`: GeoLocation
+         `where`: GeoLocation,
+         
+         how: Proof
         ) {
         
         self.id = id
@@ -32,6 +35,8 @@ final class Report: SQLiteModel {
         self.who  = who
         self.when = when
         self.where = `where`
+        
+        self.how = how
     }
 }
 
@@ -44,4 +49,8 @@ extension Report: Parameter { }
 struct GeoLocation: Codable {
     var latitude: Double
     var longitude: Double
+}
+
+struct Proof: Codable {
+    var photo: Data
 }
