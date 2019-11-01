@@ -1,4 +1,5 @@
 import Vapor
+import AppKit
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
@@ -19,10 +20,15 @@ public func routes(_ router: Router) throws {
     router.delete("todos", Todo.parameter, use: todoController.delete)
     
     
+    //
     let reportController = ReportController()
+    
     router.post("reports", use: reportController.create)
+    
     router.get("reports", use: reportController.index)
     
+    router.post("uploads", use: reportController.upload)
+
     router.get("list") { req -> Future<View> in
         
         let reports = Report.query(on: req).all()

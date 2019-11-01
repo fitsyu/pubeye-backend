@@ -18,7 +18,6 @@ final class Report: SQLiteModel {
     var whre: GeoLocation
     
     var how: Proof
-//    var video: URL
     
     init(id: Int? = nil,
          what: String,
@@ -53,4 +52,45 @@ struct GeoLocation: Codable {
 
 struct Proof: Codable {
     var photo: Data
+    var video: Data?
+}
+
+final class FlatReport: SQLiteModel, Migration, Content {
+    
+    var id: Int?
+    
+    var what: String
+    var who: String
+    var when: String
+    
+    var lat: Double
+    var lng: Double
+    
+    var img: Data
+    var vid: Data?
+    
+    init(id: Int? = nil,
+         what: String,
+         who: String,
+         when: String,
+         
+         lat: Double,
+         lng: Double,
+        
+         img: Data,
+         vid: Data?
+        ) {
+        
+        self.id = id
+        
+        self.what = what
+        self.who  = who
+        self.when = when
+        
+        self.lat = lat
+        self.lng = lng
+        
+        self.img = img
+        self.vid = vid
+    }
 }
