@@ -32,6 +32,6 @@ public func routes(_ router: Router) throws {
     router.get("list") { req -> Future<View> in
         
         let reports = Report.query(on: req).all()
-        return try req.view().render("reportlist", ["data":reports])
+        return try req.view().render("ReportList", ["data":reports])
     }
 }
