@@ -55,6 +55,23 @@ final class ReportController {
                 .appendingPathComponent(imageFolder, isDirectory: true)
                 .appendingPathComponent(imageName)
             
+            
+            if !FileManager.default.fileExists(atPath: imageFolder) {
+                
+                do {
+                    
+                    print("trying to create image directory")
+                    
+                    let imageFolderURL = URL(fileURLWithPath: workPath).appendingPathComponent(imageFolder, isDirectory: true)
+                    try FileManager.default.createDirectory( at: imageFolderURL,
+                                                             withIntermediateDirectories: false, attributes: nil)
+                    
+                } catch {
+                    print(error)
+                    return .notImplemented
+                }
+            }
+
             print("writing image to \(imageUrl.path)")
             FileManager.default.createFile(atPath: imageUrl.path, contents: report.img, attributes: nil)
             
@@ -65,12 +82,31 @@ final class ReportController {
             
             if let videoData = report.vid {
                 
+   
+                
                 
                 videoName = id + ".mov"
                 let videoFolder = "Public/videos"
                 videoUrl = URL(fileURLWithPath: workPath)
                 .appendingPathComponent(videoFolder, isDirectory: true)
                 .appendingPathComponent(videoName)
+                
+                
+                if !FileManager.default.fileExists(atPath: videoFolder) {
+                    
+                    do {
+                    
+                        print("trying to create video directory")
+                        
+                        let videoFolderURL = URL(fileURLWithPath: workPath).appendingPathComponent(videoFolder, isDirectory: true)
+                        try FileManager.default.createDirectory( at: videoFolderURL,
+                        withIntermediateDirectories: false, attributes: nil)
+                        
+                    } catch {
+                        print(error)
+                        return .notImplemented
+                    }
+                }
                 
                 print("writing video to \(videoUrl!.path)")
                 FileManager.default.createFile(atPath: videoUrl!.path, contents: videoData, attributes: nil)
