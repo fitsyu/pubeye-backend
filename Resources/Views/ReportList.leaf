@@ -40,7 +40,8 @@
                 <th>Who</th>
                 <th>When</th>
                 <th>Where</th>
-                <th>How</th>
+                <th>Image</th>
+                <th>Video</th>
             </tr>
 
             #for(report in data) {
@@ -49,7 +50,8 @@
                     <td>#(report.who)</td>
                     <td>#(report.when)</td>
                     <td>#(report.whre.latitude),#(report.whre.longitude)</td>
-                    <td> <a>somewhere</a> <td>
+                    <td> <a href=/images/#(report.how.imagePath) > view image </a> </td>
+                    <td> <a href=/videos/#(report.how.videoPath) > watch video </a> </td>
                 </tr>
             }
 
