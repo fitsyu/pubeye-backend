@@ -25,7 +25,7 @@ final class ReportController {
     }
     
     func index(_ req: Request) throws -> Future<[Report]> {
-        let reports = Report.query(on: req).all()
+        let reports = Report.query(on: req).sort(\.fluentID, .descending).all()
         return reports
     }
     
