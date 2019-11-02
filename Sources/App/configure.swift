@@ -32,6 +32,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     var migrations = MigrationConfig()
     migrations.add(model: Todo.self, database: .sqlite)
     migrations.add(model: Report.self, database: .sqlite)
+    migrations.add(model: FlatReport.self, database: .sqlite)
+    migrations.add(model: LightReport.self, database: .sqlite)
     services.register(migrations)
     
     services.register(NIOServerConfig.default(maxBodySize: 20_000_000))
