@@ -56,7 +56,8 @@ final class ReportController {
                 .appendingPathComponent(imageName)
             
             
-            if !FileManager.default.fileExists(atPath: imageFolder) {
+            var bool1: ObjCBool = true
+            if !FileManager.default.fileExists(atPath: imageFolder, isDirectory: &bool1) {
                 
                 do {
                     
@@ -68,7 +69,6 @@ final class ReportController {
                     
                 } catch {
                     print(error)
-                    return .notImplemented
                 }
             }
 
@@ -92,7 +92,8 @@ final class ReportController {
                 .appendingPathComponent(videoName)
                 
                 
-                if !FileManager.default.fileExists(atPath: videoFolder) {
+                var bool2: ObjCBool = true
+                if !FileManager.default.fileExists(atPath: videoFolder, isDirectory: &bool2) {
                     
                     do {
                     
@@ -104,7 +105,6 @@ final class ReportController {
                         
                     } catch {
                         print(error)
-                        return .notImplemented
                     }
                 }
                 
