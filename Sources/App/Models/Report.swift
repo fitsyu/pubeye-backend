@@ -55,6 +55,7 @@ struct Proof: Codable {
     var video: Data?
 }
 
+// Report from user
 final class FlatReport: SQLiteModel, Migration, Content {
     
     var id: Int?
@@ -93,4 +94,43 @@ final class FlatReport: SQLiteModel, Migration, Content {
         self.img = img
         self.vid = vid
     }
+}
+
+// Report for DB
+
+final class LightReport: SQLiteModel, Migration, Content, Parameter {
+    
+    var id: Int?
+    
+    var what: String
+    var who: String
+    var when: String
+    var whre: GeoLocation
+    
+    var how: LightProof
+    
+    init(id: Int? = nil,
+         what: String,
+         who: String,
+         when: String,
+         whre: GeoLocation,
+         
+         how: LightProof
+        ) {
+        
+        self.id = id
+        
+        self.what = what
+        self.who  = who
+        self.when = when
+        self.whre = whre
+        
+        self.how = how
+    }
+}
+
+struct LightProof: Codable {
+    
+    var imagePath: String
+    var videoPath: String
 }

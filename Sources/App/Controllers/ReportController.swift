@@ -20,37 +20,6 @@ final class ReportController {
             
             _ = report.save(on: req)
             
-//            let tempDir = FileManager.default.temporaryDirectory
-//            
-//            if let img = NSImage(data: report.how.photo) {
-//                print(img)
-//                
-//                let tempImgPath = tempDir.appendingPathComponent("img-\(report.id ?? 00).jpeg")
-//                print("will be saved to \(tempImgPath.path)")
-//                
-//                FileManager.default.createFile(atPath: tempImgPath.path,
-//                                               contents: report.how.photo,
-//                                               attributes: nil)
-//                
-//                let content = try? FileManager.default.contentsOfDirectory(atPath: tempDir.path)
-//                print(content)
-//                
-//                
-//                print("creating light report")
-//                let lightReport = LightReport(id: report.id,
-//                                              what: report.what,
-//                                              who: report.who,
-//                                              when: report.when,
-//                                              whre: report.whre,
-//                                              how: LightProof(photo: tempImgPath))
-//                
-//                lightReport.save(on: req)
-//                
-//            } else {
-//                print("cant save image")
-//            }
-//            
-            
             return .created
         }
     }
@@ -62,28 +31,68 @@ final class ReportController {
     
     func upload(_ req: Request) throws -> Future<HTTPStatus> {
         
-        return try req.content.decode(FlatReport.self).map(to: HTTPStatus.self) { flatReport in
+        return try req.content.decode(FlatReport.self).map(to: HTTPStatus.self) { report in
             
-            print(flatReport.what)
+            print(report.what)
             
-            if let videoBytesCount = flatReport.vid?.count {
+            if let videoBytesCount = report.vid?.count {
                 let bf = ByteCountFormatter()
                 bf.allowedUnits = .useMB
                 let size = bf.string(fromByteCount: Int64(videoBytesCount))
                 print(size)
             }
             
-//            _ = flatReport.save(on: req)
+            // --
             
-            let report = Report(what: flatReport.what,
-                                who: flatReport.who,
-                                when: flatReport.when,
-                                whre: GeoLocation(latitude: flatReport.lat,
-                                                  longitude: flatReport.lng),
-                                how: Proof(photo: flatReport.img,
-                                           video: flatReport.vid))
+            let directory = DirectoryConfig.detect()
+            let workPath = directory.workDir
             
-            _ = report.save(on: req)
+            let id = UUID().uuidString
+            
+            let imageName =  id + ".jpg"
+            let imageFolder = "Public/images"
+            let imageUrl = URL(fileURLWithPath: workPath)
+                .appendingPathComponent(imageFolder, isDirectory: true)
+                .appendingPathComponent(imageName)
+            
+            print("writing image to \(imageUrl.path)")
+            FileManager.default.createFile(atPath: imageUrl.path, contents: report.img, attributes: nil)
+            
+            
+            
+            var videoUrl: URL? = nil
+            var videoName = ""
+            
+            if let videoData = report.vid {
+                
+                
+                videoName = id + ".mov"
+                let videoFolder = "Public/videos"
+                videoUrl = URL(fileURLWithPath: workPath)
+                .appendingPathComponent(videoFolder, isDirectory: true)
+                .appendingPathComponent(videoName)
+                
+                print("writing video to \(videoUrl!.path)")
+                FileManager.default.createFile(atPath: videoUrl!.path, contents: videoData, attributes: nil)
+            }
+            
+            
+            //
+            
+            let lightReport = LightReport(what: report.what,
+                                          who: report.who,
+                                          when: report.when,
+                                          whre: GeoLocation(latitude: report.lat,
+                                                            longitude: report.lng),
+                                          how: LightProof(imagePath: imageName,
+                                                          videoPath: videoName))
+            
+            
+            // save
+            
+            print("saving light report")
+            _ = lightReport.save(on: req)
+            
             
             return .created
         }
